@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Componente del formulario
 function StudentLoginForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     codigoSIS: "",
     contrasena: "",
@@ -32,8 +34,8 @@ function StudentLoginForm() {
 
     if (!formData.contrasena) {
       newErrors.contrasena = "La contraseña es requerida";
-    } else if (formData.contrasena.length < 6) {
-      newErrors.contrasena = "La contraseña debe tener al menos 6 caracteres";
+    } else if (formData.contrasena.length < 4) {
+      newErrors.contrasena = "La contraseña debe tener al menos 4 caracteres";
     }
 
     if (!formData.codigo.trim()) {
@@ -52,7 +54,10 @@ function StudentLoginForm() {
     if (validateForm()) {
       console.log("Formulario válido:", formData);
       // Aquí iría la lógica de envío
+      // Router push a otra pagina
+      router.push("/inscripciones");
     }
+
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -66,11 +71,11 @@ function StudentLoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 to-tertiary flex items-center justify-center p-4">
+    <div className="min-h-screen  from-primary/10 to-tertiary flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
         {/* Header */}
-        <div className="bg-primary text-white rounded-t-2xl px-8 py-6 flex items-center gap-4">
-          <div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+        <div className="bg-foreground text-primary rounded-t-2xl px-8 py-6 flex items-center gap-4">
+          <div className="bg-primary/20 p-3 rounded-lg backdrop-blur-sm">
             <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
             </svg>
@@ -80,12 +85,12 @@ function StudentLoginForm() {
 
         {/* Form */}
         <div className="bg-white rounded-b-2xl shadow-2xl">
-          <div className="bg-tertiary px-8 py-4 border-b-4 border-green">
+          <div className="bg-primary px-8 py-4 ">
             <div className="flex items-center gap-3">
-              <div className="bg-green text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
+              <div className="bg-white text-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">
                 i
               </div>
-              <p className="text-black font-medium">
+              <p className="text-foreground font-medium">
                 Bienvenido al Servicio a Estudiantes de la UMSS.
               </p>
             </div>
@@ -108,7 +113,7 @@ function StudentLoginForm() {
                   name="codigoSIS"
                   value={formData.codigoSIS}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border-l-4 ${errors.codigoSIS ? 'border-red' : 'border-green'} bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all`}
+                  className={`w-full px-4 py-3 border-l-4 ${errors.codigoSIS ? 'border-red' : 'border-green'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all bg-background`}
                   placeholder="Ingrese su código SIS"
                 />
                 {errors.codigoSIS && (
@@ -133,7 +138,7 @@ function StudentLoginForm() {
                   name="contrasena"
                   value={formData.contrasena}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border-l-4 ${errors.contrasena ? 'border-red' : 'border-green'} bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all`}
+                  className={`w-full px-4 py-3 border-l-4 ${errors.contrasena ? 'border-red' : 'border-green'} bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all`}
                   placeholder="Ingrese su contraseña"
                 />
                 {errors.contrasena && (
@@ -157,7 +162,7 @@ function StudentLoginForm() {
                   name="dia"
                   value={formData.dia}
                   onChange={handleChange}
-                  className="px-4 py-3 border-l-4 border-green bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="px-4 py-3 border-l-4 border-green bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                 >
                   {dias.map(dia => (
                     <option key={dia} value={dia}>{dia}</option>
@@ -167,7 +172,7 @@ function StudentLoginForm() {
                   name="mes"
                   value={formData.mes}
                   onChange={handleChange}
-                  className="px-4 py-3 border-l-4 border-green bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="px-4 py-3 border-l-4 border-green bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                 >
                   {meses.map(mes => (
                     <option key={mes} value={mes}>{mes}</option>
@@ -177,7 +182,7 @@ function StudentLoginForm() {
                   name="ano"
                   value={formData.ano}
                   onChange={handleChange}
-                  className="px-4 py-3 border-l-4 border-green bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="px-4 py-3 border-l-4 border-green bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                 >
                   {anos.map(ano => (
                     <option key={ano} value={ano}>{ano}</option>
@@ -187,9 +192,9 @@ function StudentLoginForm() {
             </div>
 
             {/* CAPTCHA */}
-            <div className="bg-tertiary rounded-lg p-4">
+            <div className="bg-background rounded-lg p-4">
               <div className="flex items-center gap-4 mb-4">
-                <div className="bg-yellow-400 px-4 py-2 rounded font-bold text-black text-lg tracking-wider">
+                <div className="bg-green px-4 py-2 rounded font-bold text-white text-lg tracking-wider">
                   FKJ1480
                 </div>
                 <p className="text-sm text-black">
@@ -226,7 +231,7 @@ function StudentLoginForm() {
             <div className="flex justify-center pt-4">
               <button
                 type="submit"
-                className="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-12 rounded-lg flex items-center gap-3 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-12 rounded-lg flex items-center gap-3 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />
