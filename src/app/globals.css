@@ -14,7 +14,7 @@
   --color-seconday: #AAAAAA;
   --color-tertiary: #EEEEEE;
   --color-black: #343A40;
-  --color-green: #008000:;
+  --color-green: #008000;
   --color-red: #DC3545;
 }
 
@@ -27,6 +27,6 @@
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--black);
   font-family: Arial, Helvetica, sans-serif;
 }
