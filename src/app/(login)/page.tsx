@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { TituloFont } from "../../config/fonts";
 
 export default function Home() {
   return (
@@ -58,6 +59,9 @@ export default function Home() {
           >
             Documentation
           </a>
+          <p className={`${TituloFont.className} font-bold`}>UMSS</p>
+          <p className={`${TituloFont.className} font-light`}>UMSS</p>
+          <p className={`${TituloFont.className} font-thin`}>UMSS</p>
         </div>
       </main>
     </div>
