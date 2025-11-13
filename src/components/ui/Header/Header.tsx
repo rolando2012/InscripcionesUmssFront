@@ -6,7 +6,7 @@ import { TangerineFont } from '../../../config/fonts';
 
 export const Header = () => {
   return (
-    <header className="mx-3 my-2 p-2 rounded-xl bg-foreground shadow-sm">
+    <header className="mx-2 my-1 p-1 rounded-xl bg-foreground shadow-sm">
     <div className="flex flex-row items-center gap-3 md:gap-4">
         <div className="flex-shrink-0">
             <Image
