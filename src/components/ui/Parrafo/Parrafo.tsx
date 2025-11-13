@@ -8,8 +8,10 @@ interface ParrafoProps {
 
 export const Parrafo = ({parrafo,className}:ParrafoProps) => {
   return (
-    <div className={`${TituloFont.className} text-secondary antialiased text-sm font-normal m-3 ${className}`} 
-    >{parrafo}
+    <div className={` m-3 ${className}`}>
+        <p className={`${TituloFont.className} text-secondary antialiased text-sm font-normal`}>
+            {parrafo}
+        </p>
     </div>
   )
 }
