@@ -4,7 +4,7 @@ import { Tangerine } from 'next/font/google';
 
 export const TituloFont = Inter({
   subsets: ['latin'],
-  weight: ['100', '300', '400', '600'],
+  weight: ['100', '300', '400', '600','700'],
   variable: '--font-titulo',
 });
 

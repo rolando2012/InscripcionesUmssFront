@@ -52,9 +52,8 @@ function StudentLoginForm() {
     e.preventDefault();
     
     if (validateForm()) {
-      console.log("Formulario válido:", formData);
-      // Aquí iría la lógica de envío
-      // Router push a otra pagina
+      //console.log("Formulario válido:", formData);
+      
       router.push("/inscripciones");
     }
 
@@ -71,7 +70,7 @@ function StudentLoginForm() {
   };
 
   return (
-    <div className="min-h-screen  from-primary/10 to-tertiary flex items-center justify-center p-4">
+    <div className="min-h-screen  from-primary/10 to-tertiary flex items-center justify-center pb-2">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="bg-foreground text-primary rounded-t-2xl px-8 py-6 flex items-center gap-4">
