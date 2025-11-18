@@ -1,55 +1,58 @@
 import { Parrafo, SubTitle, Title } from '@/components'
-import React from 'react'
+import React from 'react';
 
-export default function page() {
+export default function Page() {
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen px-2">
       {/* Contenedor principal con grid responsive */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 px-2 max-w-[1400px] mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 w-full mx-auto h-[calc(100vh-2rem)]">
         
         {/* Sección 1: Inscribirse a Materias (izquierda) */}
-        <div className="lg:col-span-3 bg-white border border-tertiary rounded-lg shadow-sm p-4 mr-1">
+        <div className="lg:col-span-3 bg-white  rounded-lg shadow-sm p-4 flex flex-col">
           <Title title="Inscribirse a Materias" className="m-0 mb-4" />
           <SubTitle subtitle="Buscar por materia" className="m-0 mb-3" />
           
           {/* Aquí irá el contenido del buscador y filtros */}
-          <div className="h-[400px] border-2 border-dashed border-tertiary rounded flex items-center justify-center">
-            <span className="text-secondary text-sm">Contenido pendiente</span>
+          <div className="flex-1 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+            <span className="text-gray-500 text-sm">Contenido pendiente</span>
           </div>
         </div>
 
         {/* Sección 2: Vista de Horario (centro) */}
-        <div className="lg:col-span-6 bg-white border border-tertiary rounded-lg shadow-sm p-4">
+        <div className="lg:col-span-6 bg-white rounded-lg shadow-sm p-4 flex flex-col">
           <Title title="Vista de Horario" className="m-0 mb-4" />
           <SubTitle subtitle="Horario Semanal" className="m-0 mb-3" />
           
           {/* Aquí irá la tabla de horarios */}
-          <div className="h-[600px] border-2 border-dashed border-tertiary rounded flex items-center justify-center">
-            <span className="text-secondary text-sm">Contenido pendiente</span>
+          <div className="flex-1 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+            <span className="text-gray-500 text-sm">Contenido pendiente</span>
           </div>
         </div>
 
-        {/* Sección 3: Información de inscripción (derecha arriba) */}
-        <div className="lg:col-span-3 bg-white border border-tertiary rounded-lg shadow-sm p-4 ml-1 ">
-          <Title title="Información de inscripción" className="m-0 mb-4" />
-          
-          {/* Aquí irá el contenido de información */}
-          <div className="h-[280px] border-2 border-dashed border-tertiary rounded flex items-center justify-center">
-            <span className="text-secondary text-sm">Contenido pendiente</span>
+        {/* Columna derecha con dos secciones */}
+        <div className="lg:col-span-3 flex flex-col gap-2">
+          {/* Sección 3: Información de inscripción (derecha arriba) */}
+          <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col flex-1">
+            <Title title="Información de inscripción" className="m-0 mb-4" />
+            
+            {/* Aquí irá el contenido de información */}
+            <div className="flex-1 min-h-0 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+              <span className="text-gray-500 text-sm">Contenido pendiente</span>
+            </div>
           </div>
-        </div>
 
-        {/* Sección 4: Estado de Inscripción (derecha abajo) */}
-        <div className="lg:col-span-3 lg:col-start-10 bg-white border border-tertiary rounded-lg shadow-sm p-4 ml-1 mt-1">
-          <Title title="Estado de Inscripción" className="m-0 mb-4" />
-          
-          {/* Aquí irá el contenido del estado */}
-          <div className="h-[280px] border-2 border-dashed border-tertiary rounded flex items-center justify-center">
-            <span className="text-secondary text-sm">Contenido pendiente</span>
+          {/* Sección 4: Estado de Inscripción (derecha abajo) */}
+          <div className="bg-white  rounded-lg shadow-sm p-4 flex flex-col flex-1">
+            <Title title="Estado de Inscripción" className="m-0 mb-4" />
+            
+            {/* Aquí irá el contenido del estado */}
+            <div className="flex-1 min-h-0 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+              <span className="text-gray-500 text-sm">Contenido pendiente</span>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
-  )
+  );
 }
