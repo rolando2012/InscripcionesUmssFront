@@ -63,6 +63,7 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
           level="Nivel E"
           onViewGroups={handleViewGroups}
         />
+        
         <div className="flex-1 min-h-0 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
           <span className="text-gray-500 text-sm">Contenido pendiente</span>
         </div>
