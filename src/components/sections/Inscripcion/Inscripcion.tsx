@@ -57,13 +57,20 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
           </Select>
         </div>
         <SubTitle subtitle="Lista de Materia Disponibles" className="m-0 mb-3" />
-         <CourseCard
+        <CourseCard
           title="Sistemas I"
           code="2010142"
           level="Nivel E"
+          tipo='Regular'
           onViewGroups={handleViewGroups}
         />
-        
+        <CourseCard
+          title="Sistemas I"
+          code="2010142"
+          level="Nivel E"
+          tipo='Electiva'
+          onViewGroups={handleViewGroups}
+        />
         <div className="flex-1 min-h-0 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
           <span className="text-gray-500 text-sm">Contenido pendiente</span>
         </div>

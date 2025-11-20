@@ -6,6 +6,7 @@ interface CourseCardProps {
   title: string;
   code: string;
   level: string;
+  tipo: string;
   onViewGroups?: () => void;
 }
 
@@ -13,6 +14,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   title, 
   code, 
   level, 
+  tipo,
   onViewGroups 
 }) => {
   return (
@@ -40,8 +42,10 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         {/* Right Side Actions */}
         <div className="flex flex-col items-end gap-2 shrink-0">
           {/* Regular Badge */}
-          <span className="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-full">
-            Regular
+          <span className={`px-3 py-1 text-sm rounded-full 
+                  ${(tipo == 'Electiva')? 'text-green-600 border border-green-300' 
+                  : 'text-gray-600 border border-gray-300'}`}>
+            {tipo}
           </span>
 
           {/* Ver Grupos Button */}
