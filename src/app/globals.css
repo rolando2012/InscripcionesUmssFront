@@ -138,3 +138,20 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Aplica a cualquier elemento con overflow-y-auto dentro de este componente (la clase no es necesaria) */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 8px;
+}
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
+}
+/* Firefox */
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.2) transparent;
+}

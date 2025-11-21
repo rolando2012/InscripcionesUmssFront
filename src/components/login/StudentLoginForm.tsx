@@ -85,7 +85,7 @@ function StudentLoginForm() {
               <div className="bg-white text-primary w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-sm sm:text-base shrink-0">
                 i
               </div>
-              <p className="text-foreground font-medium text-xs sm:text-sm lg:text-base">
+              <p className="text-foreg font-medium text-xs sm:text-sm lg:text-base">
                 Bienvenido al Servicio a Estudiantes de la UMSS.
               </p>
             </div>
@@ -108,7 +108,8 @@ function StudentLoginForm() {
                   name="codigoSIS"
                   value={formData.codigoSIS}
                   onChange={handleChange}
-                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 ${errors.codigoSIS ? 'border-red' : 'border-green'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all bg-background`}
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 ${errors.codigoSIS ? 'border-red' : 'border-green'} 
+                  rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all bg-backg text-letras`}
                   placeholder="Ingrese su código SIS"
                 />
                 {errors.codigoSIS && (
@@ -133,7 +134,8 @@ function StudentLoginForm() {
                   name="contrasena"
                   value={formData.contrasena}
                   onChange={handleChange}
-                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 ${errors.contrasena ? 'border-red' : 'border-green'} bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all`}
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 ${errors.contrasena ? 'border-red' : 'border-green'} 
+                  bg-backg rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-letras`}
                   placeholder="Ingrese su contraseña"
                 />
                 {errors.contrasena && (
@@ -157,7 +159,7 @@ function StudentLoginForm() {
                   name="dia"
                   value={formData.dia}
                   onChange={handleChange}
-                  className="px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 border-green bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 border-green bg-backg rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-letras"
                 >
                   {dias.map(dia => (
                     <option key={dia} value={dia}>{dia}</option>
@@ -167,7 +169,7 @@ function StudentLoginForm() {
                   name="mes"
                   value={formData.mes}
                   onChange={handleChange}
-                  className="px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 border-green bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 border-green bg-backg rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-letras"
                 >
                   {meses.map(mes => (
                     <option key={mes} value={mes}>{mes}</option>
@@ -177,7 +179,7 @@ function StudentLoginForm() {
                   name="ano"
                   value={formData.ano}
                   onChange={handleChange}
-                  className="px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 border-green bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 border-green bg-backg rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-letras"
                 >
                   {anos.map(ano => (
                     <option key={ano} value={ano}>{ano}</option>
@@ -187,7 +189,7 @@ function StudentLoginForm() {
             </div>
 
             {/* CAPTCHA */}
-            <div className="bg-background rounded-lg p-3 sm:p-4">
+            <div className="bg-backg rounded-lg p-3 sm:p-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
                 <div className="bg-green px-3 sm:px-4 py-2 rounded font-bold text-white text-base sm:text-lg tracking-wider w-fit">
                   FKJ1480
@@ -211,7 +213,7 @@ function StudentLoginForm() {
                     name="codigo"
                     value={formData.codigo}
                     onChange={handleChange}
-                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 ${errors.codigo ? 'border-red' : 'border-green'} bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all`}
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 ${errors.codigo ? 'border-red' : 'border-green'} bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-letras`}
                     placeholder="Ingrese el código"
                     maxLength={7}
                   />
@@ -226,7 +228,7 @@ function StudentLoginForm() {
             <div className="flex justify-center pt-2 sm:pt-4">
               <button
                 type="submit"
-                className="bg-primary hover:bg-primary/90 text-white font-bold py-3 sm:py-4 px-8 sm:px-12 rounded-lg flex items-center gap-2 sm:gap-3 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl text-sm sm:text-base w-full sm:w-auto justify-center"
+                className="bg-primary hover:bg-primary/90 text-white font-bold py-3 sm:py-4 px-8 sm:px-12 rounded-lg flex items-center gap-2 sm:gap-3 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl text-sm sm:text-base w-full sm:w-auto justify-center cursor-pointer"
               >
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />

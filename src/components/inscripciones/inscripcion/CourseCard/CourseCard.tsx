@@ -19,7 +19,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 }) => {
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-2 
-      shadow-md hover:shadow-lg transition-shadow m-0 ml-3 mr-1 mb-3">
+      shadow-md hover:shadow-lg transition-shadow m-0  mb-3">
       <div className="flex items-start justify-between gap-4">
         {/* Icon and Course Info */}
         <div className="flex items-start gap-4 flex-1">
@@ -51,7 +51,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           {/* Ver Grupos Button */}
           <button
             onClick={onViewGroups}
-            className="py-2 text-sm font-medium text-white rounded-lg transition-colors px-1 bg-primary"
+            className="py-2 text-sm font-medium text-white rounded-lg transition-colors transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl px-1 bg-primary cursor-pointer"
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '0.9';
             }}
