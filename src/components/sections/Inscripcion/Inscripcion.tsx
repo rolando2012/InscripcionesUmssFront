@@ -2,9 +2,7 @@
 import React from 'react';
 import { Title, SubTitle, Card, CourseCard, Buscador, Filtro } from '@/components';
 
-interface InscripcionProps {
-  // puedes añadir props, ej. handlers o datos
-}
+interface InscripcionProps {}
 
 const handleViewGroups = () => {
   alert('Ver Grupos clicked');
@@ -12,10 +10,9 @@ const handleViewGroups = () => {
 
 export const Inscripcion: React.FC<InscripcionProps> = () => {
   return (
-    <div className="lg:col-span-3">
-      {/* añadí min-h-0 para que los hijos con overflow se comporten correctamente */}
-      <Card className="flex flex-col h-full min-h-0">
-        {/* --- Zona fija (no crece) --- */}
+    <div className="lg:col-span-3 flex flex-col h-full min-h-0">
+      <Card className="flex flex-col flex-1 min-h-0">
+        {/* Zona fija (no crece) */}
         <div className="shrink-0">
           <Title title="Inscribirse a Materias" className="m-0" />
           <SubTitle subtitle="Buscar por materia" className="m-0" />
@@ -34,11 +31,11 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
           <SubTitle subtitle="Lista de Materias Disponibles" className="m-0 mb-2" />
         </div>
 
-        {/* --- Contenedor scroll independiente para CourseCard ---
-            Explicación de la estrategia:
-            - En pantallas pequeñas: limitar la altura con max-h para mostrar 1-2 items (max-h-56).
-            - En pantallas medianas: aumentar la altura (md:max-h-80).
-            - En pantallas grandes (lg): permitir que el contenedor crezca y ocupe el espacio disponible usando flex-1 + min-h-0.
+        {/* Contenedor scroll:
+            - móviles/medianos: mostrar 1-2 items (max-h fijo)
+            - lg: permitir crecer pero con un max-height calculado en función del viewport
+            - xl: incluso un poco más alto
+            Ajusta los valores de "12rem" / "14rem" según el alto real de tu header/footer.
         */}
         <div
           className="
@@ -47,7 +44,8 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
             pr-3
             border border-dashed border-gray-200 rounded-md p-2
             max-h-56 md:max-h-80
-            lg:flex-1 lg:min-h-0
+            lg:flex-1 lg:min-h-0 lg:max-h-[calc(100vh-12rem)]
+            xl:max-h-[calc(100vh-14rem)]
           "
           role="region"
           aria-label="Lista de materias (scrollable)"
@@ -95,10 +93,8 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
               tipo="Electiva"
               onViewGroups={handleViewGroups}
             />
-            {/* más CourseCard sin hacer scroll a la página */}
           </div>
         </div>
-
       </Card>
     </div>
   );

@@ -9,7 +9,7 @@ export const Informacion: React.FC<InformacionProps> = () => {
     <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col flex-1">
       <Title title="Información de inscripción" className="m-0 " />
       <SubTitle subtitle="Promedio del anterior semestre" className="m-0" />
-      <Badge className="bg-backg text-letras ml-3">65,5</Badge>
+      <Badge className="bg-backg text-letras ml-3 my-2">65,5</Badge>
       <SubTitle subtitle="Total de materias: 6" className="m-0" />
       <Parrafo parrafo="Modadlidades:" className="m-0 "/>
       <div className="flex items-end justify-between">
