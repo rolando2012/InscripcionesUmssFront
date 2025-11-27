@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title, SubTitle, Parrafo, Card } from '@/components';
+import { Title, SubTitle, Parrafo } from '@/components';
 import { Badge } from "@/components/ui/badge"
 import { MdOutlineTimer } from "react-icons/md";
 
@@ -22,12 +22,12 @@ export const Estado: React.FC<EstadoProps> = () => {
 
     <div className="flex items-start justify-between">
       <Parrafo parrafo="Inicio:" className="m-0 leading-none" />
-    <Parrafo parrafo="Martes 12 de Agosto de 2025" className="m-0 leading-none" />
-
+      <Parrafo parrafo="Martes 12 de Agosto de 2025" className="m-0 leading-none" />
     </div>
+
     <div className="flex items-start justify-between ">
       <Parrafo parrafo="Cierre:" className="m-0 leading-none" />
-    <Parrafo parrafo="Martes 12 de Agosto de 2025" className="m-0 leading-none" />
+      <Parrafo parrafo="Martes 12 de Agosto de 2025" className="m-0 leading-none" />
     </div>
 
   </div>
