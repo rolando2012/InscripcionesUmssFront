@@ -1,15 +1,36 @@
 import React from 'react';
-import { Title, Card } from '@/components';
+import { Title, SubTitle, Parrafo, Card } from '@/components';
+import { Badge } from "@/components/ui/badge"
+import { MdOutlineTimer } from "react-icons/md";
 
 interface EstadoProps {}
 
 export const Estado: React.FC<EstadoProps> = () => {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col flex-1">
-      <Title title="Estado de Inscripción" className="m-0 mb-4" />
-      <div className="flex-1 min-h-0 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
-        <span className="text-gray-500 text-sm">Contenido pendiente</span>
-      </div>
+    <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col">
+      <Title title="Estado de Inscripción" className="m-0" />
+    
+      <SubTitle subtitle="Periodo Actual:" className="m-0" />
+      <Badge className="bg-backg text-letras ml-3">II-2025</Badge>
+
+    <div className="flex items-center">
+      <MdOutlineTimer className="text-secondary ml-3" />
+      <Parrafo parrafo="Tiempo restante:" className="m-0" />
     </div>
+
+    <SubTitle subtitle="8 horas 0 minutos 5 segundos" className="m-0" />
+
+    <div className="flex items-start justify-between">
+      <Parrafo parrafo="Inicio:" className="m-0 leading-none" />
+    <Parrafo parrafo="Martes 12 de Agosto de 2025" className="m-0 leading-none" />
+
+    </div>
+    <div className="flex items-start justify-between ">
+      <Parrafo parrafo="Cierre:" className="m-0 leading-none" />
+    <Parrafo parrafo="Martes 12 de Agosto de 2025" className="m-0 leading-none" />
+    </div>
+
+  </div>
+
   );
 };
