@@ -15,3 +15,5 @@ export * from './sections/Estado/Estado'
 export * from './inscripciones/inscripcion/Buscador/Buscador'
 export * from './inscripciones/inscripcion/Filtro/Filtro'
 export * from './inscripciones/inscripcion/CourseCard/CourseCard'
+
+export * from './modals/inscripcion/ModalInscripcion/ModalInscripcion'

@@ -56,42 +56,42 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
               code="2010142"
               level="Nivel E"
               tipo="Regular"
-              onViewGroups={handleViewGroups}
+              
             />
             <CourseCard
               title="Sistemas II"
               code="2010143"
               level="Nivel E"
               tipo="Electiva"
-              onViewGroups={handleViewGroups}
+              
             />
             <CourseCard
               title="Sistemas III"
               code="2010144"
               level="Nivel E"
               tipo="Regular"
-              onViewGroups={handleViewGroups}
+              
             />
             <CourseCard
               title="Sistemas IV"
               code="2010145"
               level="Nivel E"
               tipo="Electiva"
-              onViewGroups={handleViewGroups}
+              
             />
             <CourseCard
               title="Sistemas V"
               code="2010146"
               level="Nivel E"
               tipo="Regular"
-              onViewGroups={handleViewGroups}
+              
             />
             <CourseCard
               title="Sistemas VI"
               code="2010147"
               level="Nivel E"
               tipo="Electiva"
-              onViewGroups={handleViewGroups}
+              
             />
           </div>
         </div>
