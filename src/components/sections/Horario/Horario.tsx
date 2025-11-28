@@ -28,7 +28,7 @@ export const Horario: React.FC<HorarioProps> = () => {
         </div>
         
         {/* Marco que contiene el ícono, título y tabla */}
-        <div className="border border-gray-300 rounded-lg p-4 flex flex-col flex-1 min-h-0">
+        <div className="border border-secondary rounded-lg p-4 flex flex-col flex-1 min-h-0">
           <div className="flex items-center gap-2 mb-4 shrink-0">
             <svg className="w-5 h-5 text-letras" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="10" strokeWidth="2"/>
@@ -45,14 +45,14 @@ export const Horario: React.FC<HorarioProps> = () => {
               md:overflow-y-auto md:max-h-[500px]
               lg:overflow-y-auto
               xl:overflow-y-visible xl:max-h-none
-            "
+              rounded-lg"
             role="region"
             aria-label="Tabla de horario semanal"
           >
-          <table className="w-full border-collapse min-w-[600px]">
-            <thead className="sticky top-0 bg-white z-10">
+          <table className="w-full min-w-[600px]">
+            <thead className="sticky top-0 bg-white z-10 ">
               <tr>
-                <th className="border border-gray-300 bg-tertiary px-2 py-2 text-xs lg:text-sm font-semibold text-letras text-center min-w-[80px]">
+                <th className="border-b border-secondary bg-backg px-2 py-2 text-xs lg:text-sm font-semibold text-letras text-center min-w-[80px]">
                   <div className="flex items-center justify-center">
                     <svg className="w-4 h-4 lg:w-5 lg:h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -62,7 +62,7 @@ export const Horario: React.FC<HorarioProps> = () => {
                 {dias.map((dia) => (
                   <th 
                     key={dia} 
-                    className="border border-gray-300 bg-tertiary px-2 py-2 text-xs lg:text-sm font-semibold text-letras text-center min-w-[90px]"
+                    className="border-b border-secondary bg-backg px-2 py-2 text-xs lg:text-sm font-semibold text-letras text-center min-w-[90px]"
                   >
                     {dia}
                   </th>
@@ -72,7 +72,7 @@ export const Horario: React.FC<HorarioProps> = () => {
             <tbody>
               {horarios.map((horario, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-colors">
-                  <td className="border border-gray-300 px-2 py-3 text-xs lg:text-sm text-letras text-center font-medium bg-tertiary">
+                  <td className="border-y border-secondary px-2 py-3 text-xs lg:text-sm text-letras text-center font-medium bg-backg">
                     <div className="flex flex-col">
                       <span>{horario.inicio}</span>
                       <span>{horario.fin}</span>
@@ -81,7 +81,7 @@ export const Horario: React.FC<HorarioProps> = () => {
                   {dias.map((dia) => (
                     <td 
                       key={`${dia}-${index}`} 
-                      className="border border-gray-300 px-2 py-3 text-center hover:bg-blue-50 cursor-pointer transition-colors"
+                      className="border-y border-secondary px-2 py-3 text-center hover:bg-blue-50 cursor-pointer transition-colors"
                     >
                       {/* Celda vacía para agregar clases */}
                     </td>

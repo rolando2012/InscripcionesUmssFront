@@ -4,10 +4,6 @@ import { Title, SubTitle, Card, CourseCard, Buscador, Filtro } from '@/component
 
 interface InscripcionProps {}
 
-const handleViewGroups = () => {
-  alert('Ver Grupos clicked');
-};
-
 export const Inscripcion: React.FC<InscripcionProps> = () => {
   return (
     <div className="lg:col-span-3 flex flex-col h-full min-h-0">
