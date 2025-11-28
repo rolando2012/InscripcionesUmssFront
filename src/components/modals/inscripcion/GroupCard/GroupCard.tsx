@@ -23,7 +23,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, onClick
       className={`
         w-full text-left p-4 rounded-xl border-2 transition-all
         ${isSelected 
-          ? 'border-[var(--color-primary)] bg-blue-50' 
+          ? 'border-primary bg-blue-50' 
           : 'border-gray-200 bg-white hover:border-gray-300'
         }
       `}
@@ -32,7 +32,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, onClick
         <div className={`
           w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0
           ${isSelected 
-            ? 'border-[var(--color-primary)] bg-[var(--color-primary)]' 
+            ? 'border-primary bg-primary' 
             : 'border-gray-400'
           }
         `}>
@@ -42,7 +42,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, onClick
         </div>
         
         <div className="flex-1">
-          <h4 className="font-semibold text-[var(--color-black)] mb-2">{group.name}</h4>
+          <h4 className="font-semibold text-black mb-2">{group.name}</h4>
           
           <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
             <RiUserLine className="w-4 h-4" />

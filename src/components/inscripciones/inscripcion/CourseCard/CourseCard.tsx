@@ -19,10 +19,10 @@ export const CourseCard: React.FC<{
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4 flex-1">
             <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
-              <RiBookMarkedLine className="w-8 h-8 text-[var(--color-secondary)]" />
+              <RiBookMarkedLine className="w-8 h-8 text-secondary" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-base font-semibold text-[var(--color-primary)] mb-1">
+              <h3 className="text-base font-semibold text-primary mb-1">
                 {title}
               </h3>
               <p className="text-xs text-gray-500">
@@ -40,8 +40,8 @@ export const CourseCard: React.FC<{
             <button
               onClick={() => setIsModalOpen(true)}
               className="py-2 px-3 text-sm font-medium text-white rounded-lg transition-all 
-                       transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl 
-                       bg-[var(--color-primary)] hover:opacity-90"
+                      transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl 
+                      bg-primary hover:opacity-90"
             >
               Ver Grupos
             </button>

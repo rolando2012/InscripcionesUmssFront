@@ -21,7 +21,7 @@ export const Informacion: React.FC<InformacionProps> = () => {
             <Parrafo parrafo="0" className="m-0 leading-none" />
       </div>
 
-      <hr className="mx-3 border border-gray-200" />
+      <hr className="mx-3 border border-secondary" />
 
       <div className="flex items-end justify-between">
             <Parrafo parrafo="Total:" className="m-0 leading-none" />

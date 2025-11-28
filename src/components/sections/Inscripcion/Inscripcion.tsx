@@ -69,25 +69,22 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
               
             />
             <CourseCard
-              title="Sistemas IV"
-              code="2010145"
-              level="Nivel E"
-              tipo="Electiva"
-              
+              title="Ingles I"
+              code="1803002"
+              level="Nivel D"
+              tipo="Regular"
             />
             <CourseCard
-              title="Sistemas V"
-              code="2010146"
+              title="Ingles II"
+              code="1803002"
               level="Nivel E"
               tipo="Regular"
-              
             />
-            <CourseCard
-              title="Sistemas VI"
-              code="2010147"
-              level="Nivel E"
-              tipo="Electiva"
-              
+              <CourseCard
+              title="Ingles III"
+              code="1803002"
+              level="Nivel F"
+              tipo="Regular"
             />
           </div>
         </div>
