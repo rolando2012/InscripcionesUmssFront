@@ -44,7 +44,7 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
       id: 2,
       name: 'Grupo 2',
       teacher: 'Lic. Peeters Ilonaa Magda Lena',
-      schedule: ['Jueves 09:45 - 11:15 (691B)'],
+      schedule: ['Jueves 09:45 - 11:15 (691B)', 'Viernes 09:45 - 11:15 (691C)'],
       classroom: '691B'
     }
   ];

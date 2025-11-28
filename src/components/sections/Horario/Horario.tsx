@@ -24,12 +24,12 @@ export const Horario: React.FC<HorarioProps> = () => {
     <div className="lg:col-span-6">
       <Card className="flex flex-col h-full min-h-0">
         <div className="shrink-0">
-          <Title title="Vista de Horario" className="m-0 mb-4" />
+          <Title title="Vista de Horario" className="m-0" />
         </div>
         
         {/* Marco que contiene el ícono, título y tabla */}
-        <div className="border border-secondary rounded-lg p-4 flex flex-col flex-1 min-h-0">
-          <div className="flex items-center gap-2 mb-4 shrink-0">
+        <div className="border border-secondary rounded-lg px-4 py-2 flex flex-col flex-1 min-h-0">
+          <div className="flex items-center gap-2 mb-1 shrink-0">
             <svg className="w-5 h-5 text-letras" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="10" strokeWidth="2"/>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6l4 2"/>
