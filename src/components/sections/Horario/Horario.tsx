@@ -1,8 +1,35 @@
-import React from 'react';
+'use client'
+import React, { useState, useEffect } from 'react';
 import { Title, SubTitle, Card } from '@/components';
 
+interface ScheduleItem {
+  dia: string;
+  horaInicio: string;
+  horaFin: string;
+  aula: string;
+}
+
+interface MateriaInscrita {
+  title: string;
+  code: string;
+  schedule: ScheduleItem[];
+  colorClass: string;
+  modalidad: 'normal' | 'mesa';
+}
 
 interface HorarioProps {}
+
+const SUBJECT_COLORS = [
+  "bg-blue-100 border-blue-300 text-blue-800",
+  "bg-green-100 border-green-300 text-green-800",
+  "bg-purple-100 border-purple-300 text-purple-800",
+  "bg-orange-100 border-orange-300 text-orange-800",
+  "bg-pink-100 border-pink-300 text-pink-800",
+  "bg-teal-100 border-teal-300 text-teal-800",
+  "bg-indigo-100 border-indigo-300 text-indigo-800",
+  "bg-red-100 border-red-300 text-red-800",
+  "bg-yellow-100 border-yellow-300 text-yellow-800",
+];
 
 const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
@@ -20,6 +47,41 @@ const horarios = [
 ];
 
 export const Horario: React.FC<HorarioProps> = () => {
+  const [materiasInscritas, setMateriasInscritas] = useState<MateriaInscrita[]>([]);
+
+  useEffect(() => {
+    const handleMateriaInscrita = (event: any) => {
+      const { title, code, group, modalidad } = event.detail;
+      
+      // Solo agregar si es modalidad normal
+      if (modalidad !== 'normal') return;
+      
+      // Asignar color (rotar entre los colores disponibles)
+      const colorClass = SUBJECT_COLORS[materiasInscritas.length % SUBJECT_COLORS.length];
+      
+      const nuevaMateria: MateriaInscrita = {
+        title,
+        code,
+        schedule: group.schedule,
+        colorClass,
+        modalidad
+      };
+      
+      setMateriasInscritas(prev => [...prev, nuevaMateria]);
+    };
+
+    window.addEventListener('materiaInscrita', handleMateriaInscrita);
+    return () => window.removeEventListener('materiaInscrita', handleMateriaInscrita);
+  }, [materiasInscritas.length]);
+
+  const getMateriaEnCelda = (dia: string, horaInicio: string) => {
+    return materiasInscritas.find(materia => 
+      materia.schedule.some(sch => 
+        sch.dia === dia && sch.horaInicio === horaInicio
+      )
+    );
+  };
+
   return (
     <div className="lg:col-span-6">
       <Card className="flex flex-col h-full min-h-0">
@@ -78,14 +140,24 @@ export const Horario: React.FC<HorarioProps> = () => {
                       <span>{horario.fin}</span>
                     </div>
                   </td>
-                  {dias.map((dia) => (
-                    <td 
-                      key={`${dia}-${index}`} 
-                      className="border-y border-secondary px-2 py-3 text-center hover:bg-blue-50 cursor-pointer transition-colors"
-                    >
-                      {/* Celda vacía para agregar clases */}
-                    </td>
-                  ))}
+                  {dias.map((dia) => {
+                    const materia = getMateriaEnCelda(dia, horario.inicio);
+                    return (
+                      <td 
+                        key={`${dia}-${index}`} 
+                        className="border-y border-secondary text-center hover:bg-blue-50 cursor-pointer transition-colors"
+                      >
+                        {materia && (
+                          <div className={`${materia.colorClass} border-2  px-2 py-1 text-xs font-medium`}>
+                            <div className="font-semibold">{materia.title}</div>
+                            <div className="text-[10px] mt-0.5">
+                              {materia.schedule.find(s => s.dia === dia && s.horaInicio === horario.inicio)?.aula}
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>

@@ -5,11 +5,17 @@ import { ModalidadOption } from '../ModalidadOption/ModalidadOption';
 import { GroupCard } from '../GroupCard/GroupCard';
 
 // Tipos
+interface ScheduleItem {
+  dia: string;
+  horaInicio: string;
+  horaFin: string;
+  aula: string;
+}
 interface Group {
   id: number;
   name: string;
   teacher: string;
-  schedule: string[];
+  schedule: ScheduleItem[];
   classroom: string;
 }
 
@@ -39,14 +45,30 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
       id: 1,
       name: 'Grupo 1',
       teacher: 'Lic. Peeters Ilonaa Magda Lena',
-      schedule: ['Martes 09:45 - 11:15 (691B)', 'Jueves 06:45 - 08:15 (661)'],
+      schedule: [
+        { dia: 'Martes', horaInicio: '09:45', horaFin: '11:15', aula: '691B' },
+        { dia: 'Jueves', horaInicio: '06:45', horaFin: '08:15', aula: '661' }
+      ],
       classroom: '691B'
     },
     {
       id: 2,
       name: 'Grupo 2',
       teacher: 'Lic. Peeters Ilonaa Magda Lena',
-      schedule: ['Jueves 09:45 - 11:15 (691B)', 'Viernes 09:45 - 11:15 (691C)'],
+      schedule: [
+        { dia: 'Jueves', horaInicio: '09:45', horaFin: '11:15', aula: '691B' },
+        { dia: 'Viernes', horaInicio: '09:45', horaFin: '11:15', aula: '691C' }
+      ],
+      classroom: '691B'
+    },
+     {
+      id: 3,
+      name: 'Grupo 3',
+      teacher: 'Lic. Peeters Ilonaa Magda Lena',
+      schedule: [
+        { dia: 'Lunes', horaInicio: '09:45', horaFin: '11:15', aula: '691B' },
+        { dia: 'Miercoles', horaInicio: '09:45', horaFin: '11:15', aula: '691C' }
+      ],
       classroom: '691B'
     }
   ];
@@ -56,7 +78,19 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
       alert('Por favor selecciona un grupo');
       return;
     }
-    alert(`Inscripción exitosa al ${groups.find(g => g.id === selectedGroup)?.name}`);
+    const selectedGroupData = groups.find(g => g.id === selectedGroup);
+    if (selectedGroupData) {
+      // Disparar evento personalizado con los datos de la materia inscrita
+      const event = new CustomEvent('materiaInscrita', {
+        detail: {
+          title,
+          code,
+          group: selectedGroupData,
+          modalidad
+        }
+      });
+      window.dispatchEvent(event);
+    }
     onClose();
   };
 

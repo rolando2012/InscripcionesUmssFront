@@ -2,11 +2,18 @@
 import React from 'react';
 import { RiUserLine, RiTimeLine } from 'react-icons/ri';
 
+interface ScheduleItem {
+  dia: string;
+  horaInicio: string;
+  horaFin: string;
+  aula: string;
+}
+
 interface Group {
   id: number;
   name: string;
   teacher: string;
-  schedule: string[];
+  schedule: ScheduleItem[];
   classroom?: string;
 }
 
@@ -50,10 +57,10 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, onClick
           </div>
           
           <div className="flex flex-col gap-1">
-            {group.schedule.map((time, idx) => (
+            {group.schedule.map((scheduleItem, idx) => (
               <div key={idx} className="flex items-center gap-2 text-xs xl:text-sm text-gray-600">
                 <RiTimeLine className="w-4 h-4" />
-                <span>{time} </span>
+                <span>{scheduleItem.dia} {scheduleItem.horaInicio} - {scheduleItem.horaFin} ({scheduleItem.aula})</span>
               </div>
             ))}
           </div>
