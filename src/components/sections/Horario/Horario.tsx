@@ -43,7 +43,7 @@ export const Horario: React.FC<HorarioProps> = () => {
               overflow-x-auto 
               flex-1 min-h-0
               md:overflow-y-auto md:max-h-[500px]
-              lg:overflow-y-auto
+              lg:overflow-y-auto lg:max-h-[560px]
               xl:overflow-y-visible xl:max-h-none
               rounded-lg"
             role="region"

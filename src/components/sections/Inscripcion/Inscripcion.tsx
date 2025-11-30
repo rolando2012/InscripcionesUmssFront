@@ -41,7 +41,7 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
             border border-dashed border-gray-200 rounded-md p-2
             max-h-56 md:max-h-80
             lg:flex-1 lg:min-h-0 lg:max-h-[calc(100vh-12rem)]
-            xl:max-h-[calc(100vh-14rem)]
+            xl:max-h-[calc(100vh-9rem)]
           "
           role="region"
           aria-label="Lista de materias (scrollable)"
