@@ -74,8 +74,8 @@ export const Horario: React.FC<HorarioProps> = () => {
     return () => window.removeEventListener('materiaInscrita', handleMateriaInscrita);
   }, [materiasInscritas.length]);
 
-  const getMateriaEnCelda = (dia: string, horaInicio: string) => {
-    return materiasInscritas.find(materia => 
+  const getMateriasEnCelda = (dia: string, horaInicio: string) => {
+    return materiasInscritas.filter(materia => 
       materia.schedule.some(sch => 
         sch.dia === dia && sch.horaInicio === horaInicio
       )
@@ -141,19 +141,28 @@ export const Horario: React.FC<HorarioProps> = () => {
                     </div>
                   </td>
                   {dias.map((dia) => {
-                    const materia = getMateriaEnCelda(dia, horario.inicio);
+                    const materias = getMateriasEnCelda(dia, horario.inicio);
                     return (
                       <td 
                         key={`${dia}-${index}`} 
-                        className="border-y border-secondary text-center hover:bg-blue-50 cursor-pointer transition-colors"
+                        className="border-y border-secondary p-0 text-center hover:bg-blue-50 cursor-pointer transition-colors"
                       >
-                        {materia && (
-                          <div className={`${materia.colorClass} border-2  px-2 py-1 text-xs font-medium`}>
-                            <div className="font-semibold">{materia.title}</div>
-                            <div className="text-[10px] mt-0.5">
-                              {materia.schedule.find(s => s.dia === dia && s.horaInicio === horario.inicio)?.aula}
-                            </div>
+                        {materias.length > 0 ? (
+                          <div className="h-full w-full flex flex-col gap-1 p-1">
+                            {materias.map((materia, idx) => (
+                              <div 
+                                key={idx}
+                                className={`${materia.colorClass} border-2 rounded px-2 py-2 text-xs font-medium flex-1 flex flex-col items-center justify-center`}
+                              >
+                                <div className="font-semibold">{materia.title}</div>
+                                <div className="text-[10px] mt-0.5">
+                                  {materia.schedule.find(s => s.dia === dia && s.horaInicio === horario.inicio)?.aula}
+                                </div>
+                              </div>
+                            ))}
                           </div>
+                        ) : (
+                          <div className="px-2 py-3 h-full w-full"></div>
                         )}
                       </td>
                     );
