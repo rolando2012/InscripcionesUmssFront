@@ -9,7 +9,8 @@ interface SubTitleProps {
 export const SubTitle = ({subtitle,className}: SubTitleProps) => {
   return (
     <div className={`mx-3 my-2 ${className}`}>
-        <h2 className={`${TituloFont.className} text-letras antialiased text-base font-medium `}>
+        <h2 className={`${TituloFont.className} text-letras antialiased text-base font-medium 
+          xl:text-lg 2xl:text-xl`}>
             {subtitle}
         </h2>
     </div>
