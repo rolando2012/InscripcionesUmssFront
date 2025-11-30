@@ -19,6 +19,7 @@ interface ModalInscripcionProps {
   title: string;
   code: string;
   level: string;
+  tipo?: string;
 }
 
 export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
@@ -26,7 +27,8 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
   onClose,
   title,
   code,
-  level
+  level,
+  tipo
 }) => {
   const [modalidad, setModalidad] = useState<'normal' | 'mesa'>('normal');
   const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
@@ -73,8 +75,24 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
               <h2 className="text-xl font-bold text-primary">
                 Inscribirse a Materia
               </h2>
-              <p className="text-sm text-gray-600 mt-1">{title}</p>
-              <p className="text-xs text-gray-500">{code} · {level}</p>
+              <div className="mt-1 flex items-center justify-between gap-4">
+                {/* 1. Contenedor para los textos (Columna izquierda) */}
+                <div className="flex flex-col">
+                  <p className="text-sm text-gray-600 font-medium">{title}</p>
+                  <p className="text-xs text-gray-500">{code} · {level}</p>
+                </div>
+
+                {/* 2. El Badge/Span (Elemento derecha) */}
+                <span 
+                  className={`shrink-0 px-3 py-1 text-sm rounded-full border 
+                    ${tipo === 'Electiva' 
+                      ? 'text-green-600 border-green-300' 
+                      : 'text-gray-600 border-gray-300 '
+                    }`}
+                >
+                  {tipo}
+                </span>
+              </div>
             </div>
           </div>
           <button

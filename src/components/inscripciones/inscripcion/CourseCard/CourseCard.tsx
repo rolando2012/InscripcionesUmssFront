@@ -25,7 +25,7 @@ export const CourseCard: React.FC<{
               <h3 className="text-base font-semibold text-primary mb-1">
                 {title}
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-base text-gray-500">
                 {code} · {level}
               </p>
             </div>
@@ -55,6 +55,7 @@ export const CourseCard: React.FC<{
         title={title}
         code={code}
         level={level}
+        tipo={tipo}
       />
     </>
   );

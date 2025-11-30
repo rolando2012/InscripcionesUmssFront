@@ -44,7 +44,7 @@ export const ModalidadOption: React.FC<ModalidadOptionProps> = ({
         
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <h4 className="font-semibold text-base text-black">{title}</h4>
+            <h4 className="font-semibold text-sm xl:text-base text-black">{title}</h4>
             <span className={`px-2 py-0.5 text-xs rounded-md 
             ${isSelected 
             ? 'bg-primary text-white' 
@@ -53,7 +53,7 @@ export const ModalidadOption: React.FC<ModalidadOptionProps> = ({
               {subtitle}
             </span>
           </div>
-          <p className="text-sm text-gray-600">{description}</p>
+          <p className="text-xs xl:text-sm text-gray-600">{description}</p>
         </div>
       </div>
     </button>

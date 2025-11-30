@@ -42,16 +42,16 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, onClick
         </div>
         
         <div className="flex-1">
-          <h4 className="font-semibold text-base text-black mb-2">{group.name}</h4>
+          <h4 className="font-semibold text-sm xl:text-base text-black mb-2">{group.name}</h4>
           
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+          <div className="flex items-center gap-2 text-xs xl:text-sm text-gray-600 mb-1">
             <RiUserLine className="w-4 h-4" />
             <span>{group.teacher}</span>
           </div>
           
           <div className="flex flex-col gap-1">
             {group.schedule.map((time, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-sm text-gray-600">
+              <div key={idx} className="flex items-center gap-2 text-xs xl:text-sm text-gray-600">
                 <RiTimeLine className="w-4 h-4" />
                 <span>{time} </span>
               </div>
