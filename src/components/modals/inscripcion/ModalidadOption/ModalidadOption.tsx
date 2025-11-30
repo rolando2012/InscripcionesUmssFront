@@ -22,10 +22,10 @@ export const ModalidadOption: React.FC<ModalidadOptionProps> = ({
     <button
       onClick={onClick}
       className={`
-        w-full text-left p-4 rounded-xl border-2 transition-all
+        w-full text-left p-4 rounded-xl border-2 transition-all cursor-pointer
         ${isSelected 
           ? 'border-primary bg-blue-50' 
-          : 'border-gray-200 bg-white hover:border-gray-300'
+          : 'border-gray-200 bg-white hover:border-secondary hover:bg-gray-50'
         }
       `}
     >
@@ -45,7 +45,11 @@ export const ModalidadOption: React.FC<ModalidadOptionProps> = ({
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <h4 className="font-semibold text-base text-black">{title}</h4>
-            <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-md">
+            <span className={`px-2 py-0.5 text-xs rounded-md 
+            ${isSelected 
+            ? 'bg-primary text-white' 
+            : 'bg-gray-100 text-gray-600'
+          }`}>
               {subtitle}
             </span>
           </div>

@@ -21,10 +21,10 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, onClick
     <button
       onClick={onClick}
       className={`
-        w-full text-left p-4 rounded-xl border-2 transition-all
+        w-full text-left p-4 rounded-xl border-2 transition-all cursor-pointer
         ${isSelected 
           ? 'border-primary bg-blue-50' 
-          : 'border-gray-200 bg-white hover:border-gray-300'
+          : 'border-gray-200 bg-white hover:border-secondary hover:bg-gray-50'
         }
       `}
     >

@@ -133,7 +133,7 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
         <div className="p-3 shrink-0 flex justify-end">
           <button
             onClick={handleInscribir}
-            className="mr-3 px-3 py-2 bg-primary text-white font-medium rounded-lg
+            className="mr-3 px-3 py-2 bg-primary text-white font-medium rounded-lg cursor-pointer
                      hover:opacity-90 transition-all transform hover:scale-[1.02] active:scale-[0.98]
                      shadow-lg hover:shadow-xl"
           >
