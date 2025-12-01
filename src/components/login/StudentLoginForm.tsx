@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import LoadingModal from "@/components/modals/login/LoadingModal/LoadingModal";
+import ErrorModal from "@/components/modals/login/ErrorModal/ErrorModal";
+import SuccessModal from "@/components/modals/login/SuccessModal/SuccessModal";
 
-// Componente del formulario
 function StudentLoginForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -16,6 +18,10 @@ function StudentLoginForm() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [showLoading, setShowLoading] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const dias = Array.from({ length: 31 }, (_, i) => (i + 1).toString());
   const meses = [
@@ -34,9 +40,7 @@ function StudentLoginForm() {
 
     if (!formData.contrasena) {
       newErrors.contrasena = "La contraseña es requerida";
-    } else if (formData.contrasena.length < 4) {
-      newErrors.contrasena = "La contraseña debe tener al menos 4 caracteres";
-    }
+    } 
 
     if (!formData.codigo.trim()) {
       newErrors.codigo = "El código de verificación es requerido";
@@ -50,75 +54,96 @@ function StudentLoginForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      router.push("/inscripciones");
-    }
+
+    const valid = validateForm();
+
+    // Siempre mostramos el modal de carga durante 2 segundos (simulación)
+    setShowLoading(true);
+    setTimeout(() => {
+      setShowLoading(false);
+
+      if (valid) {
+        // mostrar modal de exito por 1.5s y luego redirigir
+        setShowSuccessModal(true);
+        setTimeout(() => {
+          setShowSuccessModal(false);
+          router.push("/inscripciones");
+        }, 1500);
+      } else {
+        // mostrar modal de error por 2s
+        setShowErrorModal(true);
+        // setTimeout(() => {
+        //   setShowErrorModal(false);
+        // }, 2000);
+      }
+    }, 2000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
     }
   };
 
   return (
-    <div className="min-h-screen from-primary/10 to-tertiary flex items-center justify-center px-2 sm:px-4 pb-2 sm:pb-4 lg:pb-2">
-      <div className="w-full max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="bg-foreg text-primary rounded-t-2xl px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex items-center gap-3 sm:gap-4">
-          <div className="bg-primary/20 p-2 sm:p-3 rounded-lg backdrop-blur-sm shrink-0">
-            <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
-            </svg>
-          </div>
-          <h1 className="text-lg sm:text-xl lg:text-2xl font-bold">ESTUDIANTES</h1>
-        </div>
-
-        {/* Form */}
-        <div className="bg-white rounded-b-2xl shadow-2xl">
-          <div className="bg-primary px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="bg-white text-primary w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-sm sm:text-base shrink-0">
-                i
-              </div>
-              <p className="text-foreg font-medium text-xs sm:text-sm lg:text-base">
-                Bienvenido al Servicio a Estudiantes de la UMSS.
-              </p>
+    <>
+      <div className="min-h-screen from-primary/10 to-tertiary flex items-center justify-center px-2 sm:px-4 pb-2 sm:pb-4 lg:pb-2">
+        <div className="w-full max-w-2xl mx-auto">
+          {/* Header */}
+          <div className="bg-foreg text-primary rounded-t-2xl px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex items-center gap-3 sm:gap-4">
+            <div className="bg-primary/20 p-2 sm:p-3 rounded-lg backdrop-blur-sm shrink-0">
+              <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+              </svg>
             </div>
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold">ESTUDIANTES</h1>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
-            {/* Código SIS */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-              <div className="flex items-center gap-2 sm:gap-3 sm:w-48">
-                <div className="bg-primary/10 p-2 sm:p-3 rounded-lg shrink-0">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                  </svg>
+          {/* Form */}
+          <div className="bg-white rounded-b-2xl shadow-2xl">
+            <div className="bg-primary px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="bg-white text-primary w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-sm sm:text-base shrink-0">
+                  i
                 </div>
-                <label className="font-semibold text-black text-sm sm:text-base">Código SIS</label>
-              </div>
-              <div className="flex-1 w-full">
-                <input
-                  type="text"
-                  name="codigoSIS"
-                  value={formData.codigoSIS}
-                  onChange={handleChange}
-                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 ${errors.codigoSIS ? 'border-red' : 'border-green'} 
-                  rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all bg-backg text-letras`}
-                  placeholder="Ingrese su código SIS"
-                />
-                {errors.codigoSIS && (
-                  <p className="text-red text-xs sm:text-sm mt-1">{errors.codigoSIS}</p>
-                )}
+                <p className="text-foreg font-medium text-xs sm:text-sm lg:text-base">
+                  Bienvenido al Servicio a Estudiantes de la UMSS.
+                </p>
               </div>
             </div>
 
-            {/* Contraseña */}
+            <form onSubmit={handleSubmit} className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
+              {/* ... (mantén aquí el resto de los campos exactamente como en tu versión) */}
+              {/* Código SIS */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                <div className="flex items-center gap-2 sm:gap-3 sm:w-48">
+                  <div className="bg-primary/10 p-2 sm:p-3 rounded-lg shrink-0">
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <label className="font-semibold text-black text-sm sm:text-base">Código SIS</label>
+                </div>
+                <div className="flex-1 w-full">
+                  <input
+                    type="text"
+                    name="codigoSIS"
+                    value={formData.codigoSIS}
+                    onChange={handleChange}
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-l-4 ${errors.codigoSIS ? 'border-red' : 'border-green'} 
+                    rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all bg-backg text-letras`}
+                    placeholder="Ingrese su código SIS"
+                  />
+                  {errors.codigoSIS && (
+                    <p className="text-red text-xs sm:text-sm mt-1">{errors.codigoSIS}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Contraseña */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               <div className="flex items-center gap-2 sm:gap-3 sm:w-48">
                 <div className="bg-primary/10 p-2 sm:p-3 rounded-lg shrink-0">
@@ -224,22 +249,27 @@ function StudentLoginForm() {
               </div>
             </div>
 
-            {/* Botón de ingreso */}
-            <div className="flex justify-center pt-2 sm:pt-4">
-              <button
-                type="submit"
-                className="bg-primary hover:bg-primary/90 text-white font-bold py-3 sm:py-4 px-8 sm:px-12 rounded-lg flex items-center gap-2 sm:gap-3 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl text-sm sm:text-base w-full sm:w-auto justify-center cursor-pointer"
-              >
-                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Ingresar
-              </button>
-            </div>
-          </form>
+              <div className="flex justify-center pt-2 sm:pt-4">
+                <button
+                  type="submit"
+                  className="bg-primary hover:bg-primary/90 text-white font-bold py-3 sm:py-4 px-8 sm:px-12 rounded-lg flex items-center gap-2 sm:gap-3 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl text-sm sm:text-base w-full sm:w-auto justify-center cursor-pointer"
+                >
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Ingresar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Modales */}
+      <LoadingModal open={showLoading} />
+      <ErrorModal open={showErrorModal} onClose={() => setShowErrorModal(false)} />
+      <SuccessModal open={showSuccessModal} onClose={() => setShowSuccessModal(false)} />
+    </>
   );
 }
 

@@ -17,4 +17,8 @@ export * from './inscripciones/inscripcion/Buscador/Buscador'
 export * from './inscripciones/inscripcion/Filtro/Filtro'
 export * from './inscripciones/inscripcion/CourseCard/CourseCard'
 
+//modals
 export * from './modals/inscripcion/ModalInscripcion/ModalInscripcion'
+export * from './modals/login/LoadingModal/LoadingModal'
+export * from './modals/login/ErrorModal/ErrorModal'
+export * from './modals/login/SuccessModal/SuccessModal'
