@@ -1,5 +1,6 @@
 import React from 'react';
 import { Title, SubTitle, Parrafo } from '@/components';
+import CountdownTimer from "@/components/ui/CountdownTimer/CountdownTimer";
 import { Badge } from "@/components/ui/badge";
 import { MdOutlineTimer } from "react-icons/md";
 
@@ -22,7 +23,7 @@ export const Estado: React.FC<EstadoProps> = () => {
           <Parrafo parrafo="Tiempo restante:" className="m-0 text-sm lg:text-base leading-tight" />
         </div>
 
-        <SubTitle subtitle="8 horas 0 minutos 5 segundos" className="m-0 text-sm lg:text-base" />
+        <CountdownTimer duration={{ hours: 8, minutes: 0, seconds: 5 }} />
 
         <div className="mt-1 space-y-1">
           <div className="flex items-start justify-between">
