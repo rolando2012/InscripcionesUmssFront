@@ -21,9 +21,10 @@ interface GroupCardProps {
   group: Group;
   isSelected: boolean;
   onClick: () => void;
+  modalidad?: 'normal' | 'mesa';
 }
 
-export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, onClick }) => {
+export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, modalidad, onClick }) => {
   return (
     <button
       onClick={onClick}
@@ -57,12 +58,18 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, onClick
           </div>
           
           <div className="flex flex-col gap-1">
-            {group.schedule.map((scheduleItem, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-xs xl:text-sm text-gray-600">
-                <RiTimeLine className="w-4 h-4" />
-                <span>{scheduleItem.dia} {scheduleItem.horaInicio} - {scheduleItem.horaFin} ({scheduleItem.aula})</span>
-              </div>
-            ))}
+            {modalidad === 'normal' && group.schedule.map((item, idx) => (
+                <div key={idx}>
+                  <span>{item.dia}</span>
+                  <span>{item.horaInicio} - {item.horaFin}</span>
+                  <span>{item.aula}</span>
+                </div>
+              ))}
+              {/* {modalidad === 'mesa' && (
+                <p className="text-sm text-gray-500 italic">
+                  Modalidad mesa - Sin horario asignado
+                </p>
+              )} */}
           </div>
         </div>
       </div>

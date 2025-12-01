@@ -148,7 +148,7 @@ export const Horario: React.FC<HorarioProps> = () => {
                         className="border-y border-secondary p-0 text-center hover:bg-blue-50 cursor-pointer transition-colors"
                       >
                         {materias.length > 0 ? (
-                          <div className="h-full w-full flex flex-col gap-1 p-1">
+                          <div className="h-full w-full flex flex-col gap-1">
                             {materias.map((materia, idx) => (
                               <div 
                                 key={idx}

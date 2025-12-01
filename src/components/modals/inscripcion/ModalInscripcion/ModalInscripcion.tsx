@@ -80,16 +80,30 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
     }
     const selectedGroupData = groups.find(g => g.id === selectedGroup);
     if (selectedGroupData) {
-      // Disparar evento personalizado con los datos de la materia inscrita
-      const event = new CustomEvent('materiaInscrita', {
-        detail: {
-          title,
-          code,
-          group: selectedGroupData,
-          modalidad
-        }
-      });
-      window.dispatchEvent(event);
+      if (modalidad === 'mesa') {
+        // Lógica específica para modalidad mesa
+        const event = new CustomEvent('materiaInscritaMesa', {
+          detail: {
+            title,
+            code,
+            group: selectedGroupData,
+            modalidad: 'mesa'
+          }
+        });
+        window.dispatchEvent(event);
+        alert('Inscrito a mesa correctamente');
+      } else {
+        // Lógica para modalidad normal
+        const event = new CustomEvent('materiaInscrita', {
+          detail: {
+            title,
+            code,
+            group: selectedGroupData,
+            modalidad: 'normal'
+          }
+        });
+        window.dispatchEvent(event);
+      }
     }
     onClose();
   };
@@ -170,13 +184,14 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
             </h3>
             <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
               {groups.map(group => (
-                <GroupCard
-                  key={group.id}
-                  group={group}
-                  isSelected={selectedGroup === group.id}
-                  onClick={() => setSelectedGroup(group.id)}
-                />
-              ))}
+              <GroupCard
+                key={group.id}
+                group={group}
+                isSelected={selectedGroup === group.id}
+                onClick={() => setSelectedGroup(group.id)}
+                modalidad={modalidad}
+              />
+            ))}
             </div>
           </div>
         </div>
@@ -186,10 +201,10 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
           <button
             onClick={handleInscribir}
             className="mr-3 px-3 py-2 bg-primary text-white font-medium rounded-lg cursor-pointer
-                     hover:opacity-90 transition-all transform hover:scale-[1.02] active:scale-[0.98]
-                     shadow-lg hover:shadow-xl"
+                    hover:opacity-90 transition-all transform hover:scale-[1.02] active:scale-[0.98]
+                    shadow-lg hover:shadow-xl"
           >
-            Inscribir Materia
+            {modalidad === 'mesa' ? 'Inscribirse a Mesa' : 'Inscribir Materia'}
           </button>
         </div>
       </div>
