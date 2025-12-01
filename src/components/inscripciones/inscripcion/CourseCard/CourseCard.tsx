@@ -1,6 +1,6 @@
 
 'use client';
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { RiBookMarkedLine } from "react-icons/ri";
 import { ModalInscripcion } from '@/components/';
 
@@ -11,6 +11,44 @@ export const CourseCard: React.FC<{
   tipo: string;
 }> = ({ title, code, level, tipo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [inscrito, setInscrito] = useState<'normal' | 'mesa' | null>(null);
+
+  React.useEffect(() => {
+    const handleInscripcion = (event: any) => {
+      const { title: titleInscrito, code: codeInscrito, modalidad } = event.detail;
+      if (titleInscrito === title && codeInscrito === code) {
+        setInscrito(modalidad);
+      }
+    };
+
+    const handleDesinscripcion = (event: any) => {
+      const { code: codeDesinscrito } = event.detail;
+      if (codeDesinscrito === code) {
+        setInscrito(null);
+      }
+    };
+
+    window.addEventListener('materiaInscrita', handleInscripcion);
+    window.addEventListener('materiaInscritaMesa', handleInscripcion);
+    window.addEventListener('materiaDesinscrita', handleDesinscripcion);
+    
+    return () => {
+      window.removeEventListener('materiaInscrita', handleInscripcion);
+      window.removeEventListener('materiaInscritaMesa', handleInscripcion);
+      window.removeEventListener('materiaDesinscrita', handleDesinscripcion);
+    };
+  }, [title, code]);
+
+  const handleQuitar = () => {
+    const event = new CustomEvent('materiaDesinscrita', {
+      detail: {
+        title,
+        code,
+        modalidad: inscrito
+      }
+    });
+    window.dispatchEvent(event);
+  };
 
   return (
     <>
@@ -38,12 +76,12 @@ export const CourseCard: React.FC<{
               {tipo}
             </span>
             <button
-              onClick={() => setIsModalOpen(true)}
-              className="py-2 px-3 text-sm font-medium text-white rounded-lg transition-all 
+              onClick={inscrito ? handleQuitar : () => setIsModalOpen(true)}
+              className={`py-2 px-3 text-sm font-medium text-white rounded-lg transition-all 
                       transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl 
-                      bg-primary hover:opacity-90"
+                      ${inscrito ? 'bg-red hover:opacity-90' : 'bg-primary hover:opacity-90'}`}
             >
-              Ver Grupos
+              {inscrito === 'normal' ? 'Quitar Grupo' : inscrito === 'mesa' ? 'Quitar Mesa' : 'Ver Grupos'}
             </button>
           </div>
         </div>

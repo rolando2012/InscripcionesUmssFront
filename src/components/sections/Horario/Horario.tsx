@@ -51,7 +51,7 @@ export const Horario: React.FC<HorarioProps> = () => {
 
   useEffect(() => {
     const handleMateriaInscrita = (event: any) => {
-      const { title, code, group, modalidad } = event.detail;
+    const { title, code, group, modalidad } = event.detail;
       
       // Solo agregar si es modalidad normal
       if (modalidad !== 'normal') return;
@@ -70,8 +70,18 @@ export const Horario: React.FC<HorarioProps> = () => {
       setMateriasInscritas(prev => [...prev, nuevaMateria]);
     };
 
+    const handleMateriaDesinscrita = (event: any) => {
+      const { code } = event.detail;
+      setMateriasInscritas(prev => prev.filter(materia => materia.code !== code));
+    };
+
     window.addEventListener('materiaInscrita', handleMateriaInscrita);
-    return () => window.removeEventListener('materiaInscrita', handleMateriaInscrita);
+    window.addEventListener('materiaDesinscrita', handleMateriaDesinscrita);
+    
+    return () => {
+      window.removeEventListener('materiaInscrita', handleMateriaInscrita);
+      window.removeEventListener('materiaDesinscrita', handleMateriaDesinscrita);
+    };
   }, [materiasInscritas.length]);
 
   const getMateriasEnCelda = (dia: string, horaInicio: string) => {
