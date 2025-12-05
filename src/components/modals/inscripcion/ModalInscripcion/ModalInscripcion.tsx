@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { RiBookMarkedLine, RiCloseLine} from 'react-icons/ri';
 import { ModalidadOption } from '../ModalidadOption/ModalidadOption';
 import { GroupCard } from '../GroupCard/GroupCard';
+import { fetchGruposPorMateria } from '@/lib/api';
 
 // Tipos
 interface ScheduleItem {
@@ -39,39 +40,60 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
   const [modalidad, setModalidad] = useState<'normal' | 'mesa'>('normal');
   const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
 
-  // Datos de ejemplo de grupos
-  const groups: Group[] = [
-    {
-      id: 1,
-      name: 'Grupo 1',
-      teacher: 'Lic. Peeters Ilonaa Magda Lena',
-      schedule: [
-        { dia: 'Martes', horaInicio: '09:45', horaFin: '11:15', aula: '691B' },
-        { dia: 'Jueves', horaInicio: '06:45', horaFin: '08:15', aula: '661' }
-      ],
-      classroom: '691B'
-    },
-    {
-      id: 2,
-      name: 'Grupo 2',
-      teacher: 'Lic. Peeters Ilonaa Magda Lena',
-      schedule: [
-        { dia: 'Jueves', horaInicio: '09:45', horaFin: '11:15', aula: '691B' },
-        { dia: 'Viernes', horaInicio: '09:45', horaFin: '11:15', aula: '691C' }
-      ],
-      classroom: '691B'
-    },
-     {
-      id: 3,
-      name: 'Grupo 3',
-      teacher: 'Lic. Peeters Ilonaa Magda Lena',
-      schedule: [
-        { dia: 'Lunes', horaInicio: '09:45', horaFin: '11:15', aula: '691B' },
-        { dia: 'Miercoles', horaInicio: '09:45', horaFin: '11:15', aula: '691C' }
-      ],
-      classroom: '691B'
+  const [groups, setGroups] = useState<Group[]>([]);
+const [loadingGroups, setLoadingGroups] = useState(false);
+const [groupsError, setGroupsError] = useState<string | null>(null);
+
+// helper para convertir ISO -> "HH:MM"
+const formatTime = (iso?: string) => {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  return `${hh}:${mm}`;
+};
+
+React.useEffect(() => {
+  // cuando se abra el modal (isOpen true) o cambie el código, traer los grupos
+  if (!isOpen) return;
+
+  let mounted = true;
+  (async () => {
+    setLoadingGroups(true);
+    setGroupsError(null);
+    try {
+      const codigoNum = Number(code); // code viene como string desde CourseCard
+      const resp = await fetchGruposPorMateria(codigoNum);
+      if (!mounted) return;
+
+      // mapear la respuesta al tipo Group que usa este componente
+      const mapped: Group[] = resp.grupos.map(g => ({
+        id: g.id,
+        name: g.nombreGrupo,
+        teacher: g.docente ?? '',
+        // schedule: transformar horas a formato HH:MM y mantener aula
+        schedule: (g.horarios || []).map(h => ({
+          dia: h.dia,
+          horaInicio: formatTime(h.horaInicio),
+          horaFin: formatTime(h.horaFin),
+          aula: h.aula
+        })),
+        // classroom: tomar el aula del primer horario si existe
+        classroom: (g.horarios && g.horarios[0]?.aula) ?? ''
+      }));
+
+      setGroups(mapped);
+    } catch (err: any) {
+      console.error('fetchGrupos error', err);
+      setGroupsError(err?.message ?? 'Error cargando grupos');
+      setGroups([]);
+    } finally {
+      if (mounted) setLoadingGroups(false);
     }
-  ];
+  })();
+
+  return () => { mounted = false; };
+}, [isOpen, code]);
 
   const handleInscribir = () => {
     if (selectedGroup === null) {
@@ -182,16 +204,23 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
             <h3 className="font-semibold text-black mb-3">
               Seleccionar el grupo
             </h3>
+
             <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
+              {loadingGroups && <p className="text-sm text-gray-500">Cargando grupos...</p>}
+              {groupsError && <p className="text-sm text-red-500">{groupsError}</p>}
+              {!loadingGroups && groups.length === 0 && !groupsError && (
+                <p className="text-sm text-gray-500">No hay grupos disponibles</p>
+              )}
+
               {groups.map(group => (
-              <GroupCard
-                key={group.id}
-                group={group}
-                isSelected={selectedGroup === group.id}
-                onClick={() => setSelectedGroup(group.id)}
-                modalidad={modalidad}
-              />
-            ))}
+                <GroupCard
+                  key={group.id}
+                  group={group}
+                  isSelected={selectedGroup === group.id}
+                  onClick={() => setSelectedGroup(group.id)}
+                  modalidad={modalidad}
+                />
+              ))}
             </div>
           </div>
         </div>

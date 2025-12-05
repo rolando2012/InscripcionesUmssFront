@@ -1,4 +1,3 @@
-// app/lib/api.ts
 export type Grupo = {
   id: number;
   nombreGrupo: string;
@@ -30,5 +29,35 @@ export async function fetchOfertaAcademica(estudianteId: number): Promise<Oferta
     throw new Error(`Error fetching oferta academica: ${res.status} ${res.statusText}`);
   }
   const data = (await res.json()) as OfertaResponse;
+  return data;
+}
+
+export type ScheduleItemApi = {
+  dia: string;
+  horaInicio: string; // ISO string
+  horaFin: string;    // ISO string
+  aula: string;
+};
+
+export type GrupoApi = {
+  id: number;
+  nombreGrupo: string;
+  horarios: ScheduleItemApi[];
+  docente?: string;
+};
+
+export type GruposResponse = {
+  grupos: GrupoApi[];
+};
+
+export async function fetchGruposPorMateria(codigoMateria: number): Promise<GruposResponse> {
+  const base = process.env.NEXT_PUBLIC_API_URL ?? '';
+  const url = `${base.replace(/\/$/, '')}/materias/grupos/${codigoMateria}`;
+
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Error fetching grupos: ${res.status} ${res.statusText}`);
+  }
+  const data = (await res.json()) as GruposResponse;
   return data;
 }
