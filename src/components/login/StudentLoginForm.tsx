@@ -22,6 +22,7 @@ function StudentLoginForm() {
   const [showLoading, setShowLoading] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   const dias = Array.from({ length: 31 }, (_, i) => (i + 1).toString());
   const meses = [
@@ -52,31 +53,65 @@ function StudentLoginForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const valid = validateForm();
 
     // Siempre mostramos el modal de carga durante 2 segundos (simulación)
+    // mostramos el loading mientras validamos / hacemos la petición
     setShowLoading(true);
-    setTimeout(() => {
+    setErrorMessage(undefined);
+    setShowErrorModal(false);
+
+    if (!valid) {
+      // Si la validación local falla, dejamos de mostrar loading y mostramos error
+      setShowLoading(false);
+      setErrorMessage("Por favor revisa los campos del formulario.");
+      setShowErrorModal(true);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+
+      // parseamos cuerpo aunque no sea ok (para mensaje de error)
+      let body: any = null;
+      try {
+        body = await res.json();
+      } catch {
+        body = null;
+      }
+
+      // ya recibimos respuesta del backend -> ocultar loading
       setShowLoading(false);
 
-      if (valid) {
-        // mostrar modal de exito por 1.5s y luego redirigir
-        setShowSuccessModal(true);
-        setTimeout(() => {
-          setShowSuccessModal(false);
-          router.push("/inscripciones");
-        }, 1500);
-      } else {
-        // mostrar modal de error por 2s
+      if (!res.ok) {
+        // backend devolvió error (cualquier status ≠ 200..299)
+        const backendMessage = body?.error || body?.message || `Error desconocido (${res.status})`;
+        setErrorMessage(backendMessage);
         setShowErrorModal(true);
-        // setTimeout(() => {
-        //   setShowErrorModal(false);
-        // }, 2000);
+        return;
       }
-    }, 2000);
+
+      // éxito: mostrar modal de éxito por 1.5s y luego redirigir
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        setShowSuccessModal(false);
+        router.push("/inscripciones"); // o la ruta que quieras
+      }, 1500);
+    } catch (err) {
+      // error de conexión u otro fallo en fetch
+      console.error("Fetch error:", err);
+      setShowLoading(false);
+      setErrorMessage("No se pudo conectar al servidor. Intenta de nuevo.");
+      setShowErrorModal(true);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
