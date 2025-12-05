@@ -2,7 +2,9 @@
 import React from 'react';
 import { Title, SubTitle, Card, CourseCard, Buscador, Filtro } from '@/components';
 
-interface InscripcionProps {}
+interface InscripcionProps {
+  estudianteId?: number;
+}
 
 export const Inscripcion: React.FC<InscripcionProps> = () => {
   return (
