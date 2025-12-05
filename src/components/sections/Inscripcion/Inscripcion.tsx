@@ -1,12 +1,19 @@
 'use client'
 import React from 'react';
 import { Title, SubTitle, Card, CourseCard, Buscador, Filtro } from '@/components';
+import type { MateriaOferta } from '@/lib/api';
 
 interface InscripcionProps {
   estudianteId?: number;
+  ofertaSugerida?: MateriaOferta[]; 
 }
 
-export const Inscripcion: React.FC<InscripcionProps> = () => {
+export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSugerida = [] }) => {
+  const fmtTipo = (t: string) => {
+    if (!t) return '';
+    const s = t.toLowerCase();
+    return s.charAt(0).toUpperCase() + s.slice(1); // Regular / Electiva
+  };
   return (
     <div className="lg:col-span-3 flex flex-col h-full min-h-0">
       <Card className="flex flex-col flex-1 min-h-0">
@@ -50,46 +57,20 @@ export const Inscripcion: React.FC<InscripcionProps> = () => {
           aria-label="Lista de materias (scrollable)"
         >
           <div className="space-y-2">
-            <CourseCard
-              title="Sistemas I"
-              code="2010142"
-              level="Nivel E"
-              tipo="Regular"
-              
-            />
-            <CourseCard
-              title="Sistemas II"
-              code="2010143"
-              level="Nivel E"
-              tipo="Electiva"
-              
-            />
-            <CourseCard
-              title="Sistemas III"
-              code="2010144"
-              level="Nivel E"
-              tipo="Regular"
-              
-            />
-            <CourseCard
-              title="Ingles I"
-              code="1803002"
-              level="Nivel D"
-              tipo="Regular"
-            />
-            <CourseCard
-              title="Ingles II"
-              code="1803002"
-              level="Nivel E"
-              tipo="Regular"
-            />
-              <CourseCard
-              title="Ingles III"
-              code="1803002"
-              level="Nivel F"
-              tipo="Regular"
-            />
-          </div>
+      {ofertaSugerida.length === 0 ? (
+        <p>No hay materias sugeridas</p>
+      ) : (
+        ofertaSugerida.map((m) => (
+          <CourseCard
+            key={m.codigo}
+            title={m.materia}
+            code={String(m.codigo)}
+            level={`Nivel ${m.nivel}`}
+            tipo={fmtTipo(m.tipo)}
+          />
+        ))
+      )}
+    </div>
         </div>
       </Card>
     </div>

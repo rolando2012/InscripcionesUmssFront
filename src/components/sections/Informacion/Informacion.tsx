@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { Title, SubTitle,Parrafo } from '@/components';
 import { Badge } from "@/components/ui/badge"
 
-interface InformacionProps {}
+interface InformacionProps {
+  promedio?: string | number | null;
+}
 
-export const Informacion: React.FC<InformacionProps> = () => {
+export const Informacion: React.FC<InformacionProps> = ({ promedio }) => {
   const [countNormal, setCountNormal] = useState(0);
   const [countMesa, setCountMesa] = useState(0);
 
@@ -44,7 +46,7 @@ export const Informacion: React.FC<InformacionProps> = () => {
       <Title title="Información de inscripción" className="m-0 " />
       <SubTitle subtitle="Promedio del anterior semestre" className="m-0" />
 
-      <Badge className="bg-backg text-letras ml-3 my-2">65,5</Badge>
+      <Badge className="bg-backg text-letras ml-3 my-2">{promedio ?? '—'}</Badge>
 
       <SubTitle subtitle="Total de materias: 6" className="m-0" />
       <Parrafo parrafo="Modadlidades:" className="m-0 "/>
