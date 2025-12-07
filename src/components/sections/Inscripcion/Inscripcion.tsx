@@ -11,6 +11,7 @@ interface InscripcionProps {
 
 export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSugerida = [] }) => {
   const [query, setQuery] = useState('');
+  const [level, setLevel] = useState<string>('Todos'); // valor por defecto
 
   const fmtTipo = (t: string) => {
     if (!t) return '';
@@ -22,14 +23,34 @@ export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSug
   const normalize = (s: string) =>
     s
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // elimina diacríticos
+      .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase();
 
+  // Genera opciones de niveles a partir de la oferta (mantiene "Todos" al inicio).
+  const levelOptions = useMemo(() => {
+    const setN = new Set<string>();
+    ofertaSugerida.forEach((m) => {
+      // usamos el valor crudo de nivel (puede ser número o letra), como string
+      setN.add(String(m.nivel));
+    });
+    const sorted = Array.from(setN).sort();
+    // Convertimos a objetos { value, label } como "E" => "Nivel E"
+    return [{ value: 'Todos', label: 'Todos los niveles' }, ...sorted.map((v) => ({ value: v, label: `Nivel ${v}` }))];
+  }, [ofertaSugerida]);
+
+  // Filtrado combinado: primero por query, luego por nivel (si no es "Todos")
   const filtered = useMemo(() => {
-    if (!query) return ofertaSugerida;
-    const q = normalize(query);
-    return ofertaSugerida.filter((m) => normalize(m.materia).includes(q));
-  }, [ofertaSugerida, query]);
+    let list = ofertaSugerida;
+    if (query) {
+      const q = normalize(query);
+      list = list.filter((m) => normalize(m.materia).includes(q));
+    }
+    if (level && level !== 'Todos') {
+      // comparamos con String(m.nivel)
+      list = list.filter((m) => String(m.nivel) === String(level));
+    }
+    return list;
+  }, [ofertaSugerida, query, level]);
 
   return (
     <div className="lg:col-span-3 flex flex-col h-full min-h-0">
@@ -40,13 +61,25 @@ export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSug
           <SubTitle subtitle="Buscar por materia" className="m-0" />
 
           <div className="mt-2">
-            {/* pasamos value y onChange al Buscador */}
-            <Buscador value={query} onChange={(v) => setQuery(v)} />
+            {/* pasamos value, onChange y onClear al Buscador */}
+            <Buscador
+              value={query}
+              onChange={(v) => setQuery(v)}
+              onClear={() => {
+                setQuery('');
+                setLevel('Todos'); // según pediste: al limpiar, mostrar todos los resultados
+              }}
+            />
           </div>
 
           <div className="mt-3">
             <SubTitle subtitle="Filtrar por semestre" className="m-0 mb-3" />
-            <Filtro />
+            {/* pasamos control al Filtro: valor actual, onChange y opciones */}
+            <Filtro
+              value={level}
+              onChange={(v) => setLevel(v)}
+              options={levelOptions}
+            />
           </div>
         </div>
 
@@ -72,11 +105,20 @@ export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSug
             {ofertaSugerida.length === 0 ? (
               <p>No hay materias sugeridas</p>
             ) : filtered.length === 0 ? (
-              // Mensaje cuando hay oferta pero no hubo coincidencias
-              <div className="flex items-center gap-2 text-[var(--color-letras)] p-3">
-                <XCircleIcon className="h-6 w-6" style={{ color: 'var(--color-red)' }} />
-                <span>No se encontró lo que ingresaste</span>
-              </div>
+              // Diferenciamos mensajes según si fue por texto o por nivel
+              <>
+                {level !== 'Todos' && !query ? (
+                  <div className="flex items-center gap-2 text-letras p-3">
+                    <XCircleIcon className="h-6 w-6" style={{ color: 'var(--color-red)' }} />
+                    <span>No hay materias para {`Nivel ${level}`}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-letras p-3">
+                    <XCircleIcon className="h-6 w-6" style={{ color: 'var(--color-red)' }} />
+                    <span>No se encontró lo que ingresaste</span>
+                  </div>
+                )}
+              </>
             ) : (
               filtered.map((m) => (
                 <CourseCard
