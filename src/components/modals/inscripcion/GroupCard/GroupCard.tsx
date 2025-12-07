@@ -1,7 +1,6 @@
 'use client'
 import React from 'react';
 import { RiUserLine, RiTimeLine } from 'react-icons/ri';
-import { FaRegClock } from 'react-icons/fa6';
 
 interface ScheduleItem {
   dia: string;
