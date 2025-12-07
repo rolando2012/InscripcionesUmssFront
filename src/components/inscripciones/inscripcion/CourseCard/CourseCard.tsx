@@ -3,6 +3,7 @@
 import React,{useState, useEffect} from 'react';
 import { RiBookMarkedLine } from "react-icons/ri";
 import { ModalInscripcion } from '@/components/';
+import { truncateString, capitalizeString } from '@/utils/stringUtils';
 
 export const CourseCard: React.FC<{
   title: string;
@@ -12,33 +13,6 @@ export const CourseCard: React.FC<{
 }> = ({ title, code, level, tipo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inscrito, setInscrito] = useState<'normal' | 'mesa' | null>(null);
-
-  const capitalizeString = (str: string): string => {
-    if (!str) {
-        return '';
-    }
-
-    // 1. Capitalización Estándar (primera letra mayúscula, resto minúscula)
-    const lower = str.toLowerCase();
-    const capitalized = lower.charAt(0).toUpperCase() + lower.slice(1);
-
-    // 2. Definición de los sufijos romanos en minúscula
-    const romanSuffixes = [' iii', ' ii', ' i'];
-
-    let finalString = capitalized;
-
-    // 3. Revisar y Reemplazar los sufijos
-    for (const suffix of romanSuffixes) {
-        // La condición de búsqueda debe ser con el sufijo en minúscula
-        if (finalString.endsWith(suffix)) {
-            const upperSuffix = suffix.toUpperCase();         
-            finalString = finalString.replace(suffix, upperSuffix);
-            break; 
-        }
-    }
-
-    return finalString;
-};
 
   React.useEffect(() => {
     const handleInscripcion = (event: any) => {
@@ -82,13 +56,13 @@ export const CourseCard: React.FC<{
       <div className="bg-white rounded-xl border border-gray-200 p-2 
         shadow-md hover:shadow-lg transition-shadow m-0 mb-3">
         <div className="flex items-start justify-between gap-4">
-          <div className="flex items-start gap-4 flex-1">
+          <div className="flex items-start gap-3 flex-1">
             <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
               <RiBookMarkedLine className="w-8 h-8 text-secondary" />
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-sm xl:text-base font-semibold text-primary mb-1">
-                {capitalizeString(title)}
+                {capitalizeString(truncateString(title, 26))}
               </h3>
               <p className="text-sm xl:text-base text-gray-500">
                 {code} · {level}

@@ -46,7 +46,7 @@ export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSug
           className="
             mt-2
             overflow-y-auto
-            pr-3
+            pr-1
             border border-dashed border-gray-200 rounded-md p-2
             max-h-56 md:max-h-80
             lg:flex-1 lg:min-h-0 lg:max-h-[calc(100vh-12rem)]
