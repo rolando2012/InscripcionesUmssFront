@@ -1,6 +1,7 @@
 'use client'
 import React from 'react';
 import { RiUserLine, RiTimeLine } from 'react-icons/ri';
+import { FaRegClock } from 'react-icons/fa6';
 
 interface ScheduleItem {
   dia: string;
@@ -59,10 +60,11 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isSelected, modalid
           
           <div className="flex flex-col gap-1">
             {modalidad === 'normal' && group.schedule.map((item, idx) => (
-                <div key={idx}>
-                  <span>{item.dia}</span>
+                <div key={idx} className="flex items-center gap-2 text-xs xl:text-sm text-gray-600 mb-1">
+                  <RiTimeLine className="w-4 h-4 text-gray-500" />
+                  <span>{item.dia}: </span>
                   <span>{item.horaInicio} - {item.horaFin}</span>
-                  <span>{item.aula}</span>
+                  <span> ({item.aula})</span>
                 </div>
               ))}
               {/* {modalidad === 'mesa' && (

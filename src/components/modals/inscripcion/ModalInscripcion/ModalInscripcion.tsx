@@ -44,12 +44,13 @@ export const ModalInscripcion: React.FC<ModalInscripcionProps> = ({
 const [loadingGroups, setLoadingGroups] = useState(false);
 const [groupsError, setGroupsError] = useState<string | null>(null);
 
-// helper para convertir ISO -> "HH:MM"
-const formatTime = (iso?: string) => {
+// helper para convertir ISO -> "HH:MM" (Mantiene la hora UTC)
+const formatTimeUTC = (iso?: string) => {
   if (!iso) return '';
   const d = new Date(iso);
-  const hh = String(d.getHours()).padStart(2, '0');
-  const mm = String(d.getMinutes()).padStart(2, '0');
+  //  Usamos getUTCHours() y getUTCMinutes()
+  const hh = String(d.getUTCHours()).padStart(2, '0');
+  const mm = String(d.getUTCMinutes()).padStart(2, '0');
   return `${hh}:${mm}`;
 };
 
@@ -74,8 +75,8 @@ React.useEffect(() => {
         // schedule: transformar horas a formato HH:MM y mantener aula
         schedule: (g.horarios || []).map(h => ({
           dia: h.dia,
-          horaInicio: formatTime(h.horaInicio),
-          horaFin: formatTime(h.horaFin),
+          horaInicio: formatTimeUTC(h.horaInicio),
+          horaFin: formatTimeUTC(h.horaFin),
           aula: h.aula
         })),
         // classroom: tomar el aula del primer horario si existe
