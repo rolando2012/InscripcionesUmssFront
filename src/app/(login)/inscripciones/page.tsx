@@ -1,8 +1,9 @@
 import React from 'react';
 import { Inscripcion, Horario, Informacion, Estado } from '@/components';
 import { cookies } from 'next/headers'
-import { jwtVerify } from 'jose'
+import { jwtVerify, errors } from 'jose'
 import { fetchOfertaAcademica } from '@/lib/api';
+import { redirect } from 'next/navigation';
 
 export default async function Page() {
   const token = (await cookies()).get('access_token')?.value;
@@ -18,9 +19,17 @@ try {
   );
   const estudianteId = Number((payload as any).id);
   ofertaData = await fetchOfertaAcademica(estudianteId);
-} catch (e) {
-  console.error(e);
-  return <p>Token inválido</p>;
+} catch (error) {
+  // 1. Manejo del token expirado
+    if (error instanceof errors.JWTExpired) {
+      console.error('JWT expirado en Server Component, redirigiendo.');
+      // Simplemente redirige a la página de login (que limpiará la cookie si está bien configurada)
+      redirect('/'); // Redirige al inicio (o login)
+    }
+
+    // 2. Otros errores de JWT
+    console.error('Error de verificación de JWT inesperado:', error);
+    redirect('/');
 }
 
   return (

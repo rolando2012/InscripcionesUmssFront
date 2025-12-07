@@ -13,6 +13,33 @@ export const CourseCard: React.FC<{
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inscrito, setInscrito] = useState<'normal' | 'mesa' | null>(null);
 
+  const capitalizeString = (str: string): string => {
+    if (!str) {
+        return '';
+    }
+
+    // 1. Capitalización Estándar (primera letra mayúscula, resto minúscula)
+    const lower = str.toLowerCase();
+    const capitalized = lower.charAt(0).toUpperCase() + lower.slice(1);
+
+    // 2. Definición de los sufijos romanos en minúscula
+    const romanSuffixes = [' iii', ' ii', ' i'];
+
+    let finalString = capitalized;
+
+    // 3. Revisar y Reemplazar los sufijos
+    for (const suffix of romanSuffixes) {
+        // La condición de búsqueda debe ser con el sufijo en minúscula
+        if (finalString.endsWith(suffix)) {
+            const upperSuffix = suffix.toUpperCase();         
+            finalString = finalString.replace(suffix, upperSuffix);
+            break; 
+        }
+    }
+
+    return finalString;
+};
+
   React.useEffect(() => {
     const handleInscripcion = (event: any) => {
       const { title: titleInscrito, code: codeInscrito, modalidad } = event.detail;
@@ -60,10 +87,10 @@ export const CourseCard: React.FC<{
               <RiBookMarkedLine className="w-8 h-8 text-secondary" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-base font-semibold text-primary mb-1">
-                {title}
+              <h3 className="text-sm xl:text-base font-semibold text-primary mb-1">
+                {capitalizeString(title)}
               </h3>
-              <p className="text-base text-gray-500">
+              <p className="text-sm xl:text-base text-gray-500">
                 {code} · {level}
               </p>
             </div>
@@ -77,7 +104,7 @@ export const CourseCard: React.FC<{
             </span>
             <button
               onClick={inscrito ? handleQuitar : () => setIsModalOpen(true)}
-              className={`py-2 px-3 text-sm font-medium text-white rounded-lg transition-all 
+              className={`py-2 px-3 text-xs xl:text-sm font-medium text-white rounded-lg transition-all 
                       transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl 
                       ${inscrito ? 'bg-red hover:opacity-90' : 'bg-primary hover:opacity-90'}`}
             >
@@ -90,7 +117,7 @@ export const CourseCard: React.FC<{
       <ModalInscripcion
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={title}
+        title={capitalizeString(title)}
         code={code}
         level={level}
         tipo={tipo}
