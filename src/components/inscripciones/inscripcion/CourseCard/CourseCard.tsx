@@ -1,42 +1,61 @@
-
 'use client';
-import React,{useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { RiBookMarkedLine } from "react-icons/ri";
 import { ModalInscripcion } from '@/components/';
 import { truncateString, capitalizeString } from '@/utils/stringUtils';
 
+// Agregamos maxMaterias a los props
 export const CourseCard: React.FC<{
   title: string;
   code: string;
   level: string;
   tipo: string;
-}> = ({ title, code, level, tipo }) => {
+  maxMaterias: number; 
+}> = ({ title, code, level, tipo, maxMaterias }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inscrito, setInscrito] = useState<'normal' | 'mesa' | null>(null);
+  
+  // Nuevo estado local para saber cuántas materias hay en TOTAL en todo el sistema
+  const [globalCount, setGlobalCount] = useState(0);
 
-  React.useEffect(() => {
-    const handleInscripcion = (event: any) => {
+  useEffect(() => {
+    // 1. Manejo del estado propio (si ESTA carta está inscrita)
+    const handleInscripcionPropia = (event: any) => {
       const { title: titleInscrito, code: codeInscrito, modalidad } = event.detail;
-      if (titleInscrito === title && codeInscrito === code) {
+      // Nota: Recuerda pasar 'title' puro al modal como corregimos antes
+      if (codeInscrito === code) {
         setInscrito(modalidad);
       }
     };
 
-    const handleDesinscripcion = (event: any) => {
+    const handleDesinscripcionPropia = (event: any) => {
       const { code: codeDesinscrito } = event.detail;
       if (codeDesinscrito === code) {
         setInscrito(null);
       }
     };
 
-    window.addEventListener('materiaInscrita', handleInscripcion);
-    window.addEventListener('materiaInscritaMesa', handleInscripcion);
-    window.addEventListener('materiaDesinscrita', handleDesinscripcion);
+    // 2. Manejo del conteo GLOBAL (para bloquear el botón)
+    const handleGlobalIncrement = () => setGlobalCount(prev => prev + 1);
+    const handleGlobalDecrement = () => setGlobalCount(prev => Math.max(0, prev - 1));
+
+    window.addEventListener('materiaInscrita', handleInscripcionPropia);
+    window.addEventListener('materiaInscritaMesa', handleInscripcionPropia);
+    window.addEventListener('materiaDesinscrita', handleDesinscripcionPropia);
+
+    // Escuchamos CUALQUIER inscripción para actualizar el contador global
+    window.addEventListener('materiaInscrita', handleGlobalIncrement);
+    window.addEventListener('materiaInscritaMesa', handleGlobalIncrement);
+    window.addEventListener('materiaDesinscrita', handleGlobalDecrement);
     
     return () => {
-      window.removeEventListener('materiaInscrita', handleInscripcion);
-      window.removeEventListener('materiaInscritaMesa', handleInscripcion);
-      window.removeEventListener('materiaDesinscrita', handleDesinscripcion);
+      window.removeEventListener('materiaInscrita', handleInscripcionPropia);
+      window.removeEventListener('materiaInscritaMesa', handleInscripcionPropia);
+      window.removeEventListener('materiaDesinscrita', handleDesinscripcionPropia);
+      
+      window.removeEventListener('materiaInscrita', handleGlobalIncrement);
+      window.removeEventListener('materiaInscritaMesa', handleGlobalIncrement);
+      window.removeEventListener('materiaDesinscrita', handleGlobalDecrement);
     };
   }, [title, code]);
 
@@ -51,10 +70,14 @@ export const CourseCard: React.FC<{
     window.dispatchEvent(event);
   };
 
+  // Lógica de bloqueo:
+  // Está bloqueado SI: (El límite se alcanzó) Y (Esta materia NO está inscrita)
+  const isBlocked = (globalCount >= maxMaterias) && !inscrito;
+
   return (
     <>
-      <div className="bg-white rounded-xl border border-gray-200 p-2 
-        shadow-md hover:shadow-lg transition-shadow m-0 mb-3">
+      <div className={`bg-white rounded-xl border border-gray-200 p-2 
+        shadow-md transition-shadow m-0 mb-3 ${isBlocked ? 'opacity-70' : 'hover:shadow-lg'}`}>
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-3 flex-1">
             <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
@@ -76,26 +99,38 @@ export const CourseCard: React.FC<{
                       : 'text-gray-600 border border-gray-300'}`}>
               {tipo}
             </span>
+            
             <button
+              disabled={isBlocked}
               onClick={inscrito ? handleQuitar : () => setIsModalOpen(true)}
               className={`py-2 px-3 text-xs xl:text-sm font-medium text-white rounded-lg transition-all 
-                      transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl 
-                      ${inscrito ? 'bg-red hover:opacity-90' : 'bg-primary hover:opacity-90'}`}
+                      transform shadow-lg 
+                      ${inscrito 
+                        ? 'bg-red hover:opacity-90 active:scale-95' 
+                        : isBlocked 
+                          ? 'bg-secondary cursor-not-allowed shadow-none' // Estado Bloqueado
+                          : 'bg-primary hover:opacity-90 hover:scale-105 active:scale-95 hover:shadow-xl' // Estado Normal
+                      }`}
             >
-              {inscrito === 'normal' ? 'Quitar Grupo' : inscrito === 'mesa' ? 'Quitar Mesa' : 'Ver Grupos'}
+              {inscrito 
+                ? (inscrito === 'normal' ? 'Quitar Grupo' : 'Quitar Mesa') 
+                : (isBlocked ? 'Sin cupos' : 'Ver Grupos')
+              }
             </button>
           </div>
         </div>
       </div>
 
-      <ModalInscripcion
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={capitalizeString(title)}
-        code={code}
-        level={level}
-        tipo={tipo}
-      />
+      {!isBlocked && (
+        <ModalInscripcion
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title={title} 
+          code={code}
+          level={level}
+          tipo={tipo}
+        />
+      )}
     </>
   );
 };

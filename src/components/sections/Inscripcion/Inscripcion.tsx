@@ -7,9 +7,10 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 interface InscripcionProps {
   estudianteId?: number;
   ofertaSugerida?: MateriaOferta[]; 
+  maxMaterias: number;
 }
 
-export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSugerida = [] }) => {
+export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSugerida = [], maxMaterias }) => {
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState<string>('Todos'); // valor por defecto
 
@@ -127,6 +128,7 @@ export const Inscripcion: React.FC<InscripcionProps> =({ estudianteId, ofertaSug
                   code={String(m.codigo)}
                   level={`Nivel ${m.nivel}`}
                   tipo={fmtTipo(m.tipo)}
+                  maxMaterias={maxMaterias}
                 />
               ))
             )}

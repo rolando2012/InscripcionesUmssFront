@@ -57,7 +57,7 @@ export const Horario: React.FC<HorarioProps> = () => {
       if (modalidad !== 'normal') return;
       
       // Asignar color (rotar entre los colores disponibles)
-      const colorClass = SUBJECT_COLORS[materiasInscritas.length % SUBJECT_COLORS.length];
+      const colorClass = SUBJECT_COLORS[materiasInscritas.length];
       
       const nuevaMateria: MateriaInscrita = {
         title,

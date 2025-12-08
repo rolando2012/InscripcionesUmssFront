@@ -4,6 +4,7 @@ import { RiBookMarkedLine, RiCloseLine} from 'react-icons/ri';
 import { ModalidadOption } from '../ModalidadOption/ModalidadOption';
 import { GroupCard } from '../GroupCard/GroupCard';
 import { fetchGruposPorMateria } from '@/lib/api';
+import { capitalizeString } from '@/utils/stringUtils';
 
 // Tipos
 interface ScheduleItem {
@@ -149,7 +150,7 @@ React.useEffect(() => {
               <div className="mt-1 flex items-center justify-between gap-4">
                 {/* 1. Contenedor para los textos (Columna izquierda) */}
                 <div className="flex flex-col">
-                  <p className="text-sm text-gray-600 font-medium">{title}</p>
+                  <p className="text-sm text-gray-600 font-medium">{capitalizeString(title)}</p>
                   <p className="text-xs text-gray-500">{code} · {level}</p>
                 </div>
 
